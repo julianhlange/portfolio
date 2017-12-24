@@ -9,6 +9,7 @@ for which data are available in those two periods. Recent research conducted by 
 for Africa and documented in "Income Inequality Trends in sub-Saharan Africa: Divergence, Determinants, and Consequences" identified the
 drivers of income inequality in African countries. This visualization highlights African countries and compares them with the rest of the world.
 
+
 ![preview.png](preview.png)
 
 ### Guide to reading the plot

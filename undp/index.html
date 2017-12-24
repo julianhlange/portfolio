@@ -130,7 +130,7 @@
         color: 111111;
         text-align: left;
         position: absolute;
-        top: 950px;
+        top: 930px;
         margin: 20px;
     }
 
@@ -225,7 +225,7 @@
         font-family: "PT Sans";
         position: absolute;
         top: 115px;
-        left: 300px;
+        left: 291px;
         z-index: 10000;
         overflow: auto;
         overflow-y: auto;
@@ -247,7 +247,7 @@
     <p class="intro" id="intro5">Countries for which data are available in both selected time</p>
     <p class="intro" id="intro6">periods appear on the plot. Hover and click on any point</p>
     <p class="intro" id="intro7">to view country name, change in Gini score, and more<br></p>
-    <p class="intro" id="intro8">data. Navigate <a href="https://github.com/julianhlange/major-studio-1/blob/master/assignments/tools/README.md" target="_blank">here</a> for data sources, project details,</p>
+    <p class="intro" id="intro8">data. Navigate <a href="https://github.com/julianhlange/portfolio/blob/master/undp/README.md" target="_blank">here</a> for data sources, project details,</p>
     <p class="intro" id="intro9">and a guide to interpreting the rotated scatterplot.</p>
 
     <p id="from" class="fromTo">From</p>
@@ -660,7 +660,7 @@
                         let modalBody = d3.selectAll(".modal-body");
                         modalBody.html("<div id='countryPlot'></div>")
 
-                        var pad = 70;
+                        var pad = 72;
                         var w = 500;
                         var h = 500;
                         var graphTop = h - pad;
@@ -746,7 +746,7 @@
                         d3.select('.x-axis')
                             .append('text')
                             .attr("class", "axis-title")
-                            .attr("transform", "translate(" + ((w/2) - 40) + ", 65)")
+                            .attr("transform", "translate(" + ((w/2) - 40) + ", 68)")
                             .attr('text-anchor', 'start')
                             .text("5-Year period");
 
