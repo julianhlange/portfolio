@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Abel" type="text/css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Libre Franklin" type="text/css" rel="stylesheet">
+        <link href="index.css" type="text/css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <h1> Rise in income inequality after the fall of Communism </h1>
+        <p id="byline">by JULIAN H. LANGE</p>
+        <p> Communism advocates for a society free of class division by money, in effect a state with low income inequality.
+        The fall of Eastern European Communism in the late 1980s and early 1990s provides an opportunity to study the
+        effect of conversion from Communism to Capitalism on income inequality. The Gini coefficient is an annual measure of income inequality
+        and ranges from 0 (complete equality) to 100 (full inequality).
+        This analysis focuses on four former Eastern Bloc countries whose borders were not altered in the ensuing years.</p>
+
+        <h5>1989&mdash;2002</h5>
+
+        <div id='target'></div>
+
+        <script>
+
+            var margin = {top: 20, right: 20, bottom: 20, left: 20};
+            var width = window.innerWidth - margin.left - margin.right;
+            var height = window.innerHeight/7;
+
+            d3.json('poland.json', function(error, data) {
+                if (error) throw error;
+                svg(data, 'Poland');
+            });
+
+            d3.json('romania.json', function(error, data) {
+                if (error) throw error;
+                svg(data, 'Romania');
+            });
+
+            d3.json('hungary.json', function(error, data) {
+                if (error) throw error;
+                svg(data, 'Hungary');
+            });
+
+            d3.json('bulgaria.json', function(error, data) {
+                if (error) throw error;
+                svg(data, 'Bulgaria');
+            });
+
+            function svg(data, countryName) {
+
+                var graph =  d3.select('#target')
+                    .append('div')
+                    .attr('class', countryName)
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height',  height)
+                    .append('g');
+
+                var tmpGini = [];
+                for(var i in data) {
+                    tmpGini.push(data[i].Gini);
+                }
+                var minGini = d3.min(tmpGini);
+                var maxGini = d3.max(tmpGini);
+                var midGini = (maxGini + minGini)/2
+                var sumGini = d3.sum(tmpGini);
+
+                var x = d3.scaleLinear()
+                    .domain([1987, 2004])
+                    .range([width/2-200, width/2+200]);
+
+                var y = d3.scaleLinear()
+                    .domain([minGini, maxGini])
+                    .range([0.75*height, 0.25*height]);
+
+                graph.append('line')
+            	    .attr('x1', x(1988.5))
+            	    .attr('x2', x(2002.5))
+            	    .attr('y1', y(midGini))
+            	    .attr('y2', y(midGini))
+            	    .style('stroke', '494949')
+            	    .attr('stroke-width', 1);
+            	
+            	graph.append('line')
+            	    .attr('x1', x(1988.5))
+            	    .attr('x2', x(2002.5))
+            	    .attr('y1', y(minGini))
+            	    .attr('y2', y(minGini))
+            	    .style('stroke', '999999')
+            	    .attr('stroke-width', 0.1);
+                
+                graph.append('line')
+            	    .attr('x1', x(1988.5))
+            	    .attr('x2', x(2002.5))
+            	    .attr('y1', y(maxGini))
+            	    .attr('y2', y(maxGini))
+            	    .style('stroke', '999999')
+            	    .attr('stroke-width', 0.1);
+
+            	graph.append('text')
+            	    .attr('x', x(1988))
+            	    .attr('y', 1.05*y(midGini))
+            	    .text(countryName)
+            	    .attr('font', 'Libre Franklin')
+            	    .attr('font-size', '14px')
+            	    .attr("text-anchor", "end");
+            	   
+            	graph.append('text')
+            	    .attr('x', x(2002.8))
+            	    .attr('y', 0.27*height)
+            	    .text("high: " + maxGini)
+            	    .attr('font', 'Libre Franklin')
+            	    .attr('font-size', '10px');
+            	    
+            	graph.append('text')
+            	    .attr('x', x(2002.8))
+            	    .attr('y', 0.77*height)
+            	    .text("low: " + minGini)
+            	    .attr('font', 'Libre Franklin')
+            	    .attr('font-size', '10px');
+
+                var group = graph
+                    .selectAll('g')
+                    .data(data)
+                    .enter()
+                    .append('g')
+                    .attr('class', function(d) { return d.Country; })
+                    .attr('x', function(d, i) { return d.Year; })
+                    .attr('transform', function(d, i) {
+            			return 'translate(' + 0 + ', ' + 0 + ')';
+            		});
+
+            	group.append('circle')
+            	    .attr('r', '4px')
+            	    .style('fill', '696969')
+            	    .attr('cx', function(d, i) { return x(d.Year); })
+            	    .attr('cy', function(d, i) { return y(d.Gini); });
+
+            }
+
+        </script>
+
+        <p> Of the nine Eastern European countries that were ostensibly Communist in the second half of the 20th century, seven were still
+        united by the Warsaw Pact when the Berlin Wall fell in 1989. Four of them&mdash;Bulgaria, Hungary, Poland, and Romania&mdash;remained
+        intact into the 21st century and are therefore appropriate for this study. The dissolution of the USSR and Czechoslovakia into their
+        constituent states and the reunification of East Germany with West Germany impede the analysis of these three former Eastern Bloc countries.</p>
+
+        <p id="source"> Data were retrieved in September 2017 from the <a href="https://www.wider.unu.edu/project/wiid-world-income-inequality-database" target="_blank">UNU-WIDER World Income Inequality Database (WIID3.4)</a> filtered for Source=Transmonee 2004 and Welfaredefn=Income, net.
+        To emphasize shape over score, data for each country are internally scaled from low to high. Data are not available for Bulgaria in
+        1989&ndash;1991 & 2001&ndash;2002 or Hungary in 1990 & 1992.<br><br>
+         Visualization by <a href="https://www.julianhlange.com" target="_blank">Julian H. Lange</a>, December 2017</p></p>
+
+    </body>
+</html>
