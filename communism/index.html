@@ -88,7 +88,7 @@
             	    .attr('y1', y(minGini))
             	    .attr('y2', y(minGini))
             	    .style('stroke', '999999')
-            	    .attr('stroke-width', 0.1);
+            	    .attr('stroke-width', 0.2);
                 
                 graph.append('line')
             	    .attr('x1', x(1988.5))
@@ -96,7 +96,7 @@
             	    .attr('y1', y(maxGini))
             	    .attr('y2', y(maxGini))
             	    .style('stroke', '999999')
-            	    .attr('stroke-width', 0.1);
+            	    .attr('stroke-width', 0.2);
 
             	graph.append('text')
             	    .attr('x', x(1988))
@@ -111,14 +111,14 @@
             	    .attr('y', 0.27*height)
             	    .text("high: " + maxGini)
             	    .attr('font', 'Libre Franklin')
-            	    .attr('font-size', '10px');
+            	    .attr('font-size', '12px');
             	    
             	graph.append('text')
             	    .attr('x', x(2002.8))
             	    .attr('y', 0.77*height)
             	    .text("low: " + minGini)
             	    .attr('font', 'Libre Franklin')
-            	    .attr('font-size', '10px');
+            	    .attr('font-size', '12px');
 
                 var group = graph
                     .selectAll('g')

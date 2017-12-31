@@ -27,20 +27,12 @@ p {
     text-align: justify;
 }
 
-#source {
-    font-size: 12px
-}
-
 #byline {
     text-align: center;
     font-size: larger;
     color: 111111;
 }
 
-.domain {
-    opacity: 0.5;
-}
-
-#key {
-    position: absolute;
+#source {
+    font-size: 12px
 }
