@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    <link href="index.css" type="text/css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="data/data_accel_all_gap150.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!--from facebook-->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <div class="titleContainer">
+        <img id="photoFinish" src="assets/photoFinish.png" alt="2018 Olympics biathlon mass start photo finish" style="width:100%;">
+    </div>
+
+    <div>
+        <h4 id="credit">Credit: OMEGA</h4>
+    </div>
+    
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Visual stories of winning margins in elite sports" data-url="http://bit.ly/julianhlange-edge" data-via="julianhlange" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div class="fb-share-button" data-href="http://bit.ly/julianhlange-edge" data-layout="button" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fbit.ly%2Fjulianhlange-edge&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+
+    <div class="title">
+        <h1>On and Beyond the Edge</h1>
+    </div>
+    
+    <div class="subtitle">
+        <h2>Visual stories of winning margins in elite sports</h2>
+    </div>
+
+    <div class="subtitleContainer">
+        <!--<h3 id="by">by</h3>-->
+        <h3 id="me"><a href="https://www.julianhlange.com" style="text-decoration: none" target="_blank">JULIAN H. LANGE</a></h3>
+    </div>
+
+    <!--Introduction-->
+    <div>
+        <p class="main"><br><br>In the men's 15-kilometer mass start biathlon event at the 2018 Winter Olympic Games in PyeongChang, South Korea,
+            the clock was measuring time to the hundredth of a second. After over 35 minutes of racing, it could not distinguish between the top two finishers.
+            Officials turned to the photo-finish image above to determine the winner — by the length of a toe.</p>
+        <p class="main">Olympic Games and World Championships showcase the world’s elite athletes. Although gold medalists can parlay
+            their victories into large financial premiums, the winning margins are often vanishingly small. To surmount
+            these margins, athletes continuously acquire sources of edge, from training methods to nutrition and
+            equipment, and, in some cases, illicit performance-enhancing substances.</p>
+        <p class="main">The trio of interactive visualizations below explores three stories from and beyond the edge of victory. First,
+            situated in the 2018 Winter Olympic Games, you are invited to test hypothetical scenarios in which athletes'
+            performances improve by small increments, from 0.05% to 1%. The second visualization highlights a
+            story from the swimming pool, where advances in swimsuit design effectively changed the parameters of a
+            sport. Finally, re-live the 2018 Winter Olympic Games men's singles luge event via an animation displaying the top eight athletes head-to-head.</p>
+    </div>
+
+    <br>
+
+    <div>
+        <img class="endmark" src="assets/endmark.png" alt="End Mark">
+    </div>
+
+    <br>
+
+    <!--Hypothetical standings at Olympics-->
+    <div>
+        <h3>Thin Margins at the 2018 Winter Olympic Games</h3>
+        <p class="main">For many elite athletes, qualifying for the Olympics is the principal (and admirable) goal of their athletic
+            careers. Indeed, the vast majority of Olympians who participated in the 2018 Winter Olympic Games did not win a medal.
+            However, a fraction of athletes measure success by Olympic medals won. What are the
+            differences in athletic abilities between medal winners and non-medalists or between gold medalists and silver medalists?
+            What would it take to win a medal?
+        <p class="main">This interactive visualization highlights how thin the margins of victory were in timed races at the 2018 Winter Olympic Games.
+            Select your favorite sport to view the actual results of the top eight finishers,
+            then test hypothetical scenarios in which subsets of these athletes are marginally faster. Improvements as small as 0.1% would have
+            altered the medal standings of many events.</p>
+    </div>
+
+    <div id="sectionOWG2018">
+        <div class="question">How close were the 2018 Winter Olympic Games?</div>
+        <select id="selectSport" class="selectSportEvent">
+            <option value="Alpine">Alpine Skiing</option><option value="Bobsleigh">Bobsleigh</option><option value="Cross_Country">Cross Country Skiing</option>
+            <option value="Luge">Luge</option><option value="Skeleton">Skeleton</option><option value="Speed_Skating">Speed Skating</option>
+            </select>
+        <select id="selectEvent" class="selectSportEvent"></select>
+    </div>
+
+    <div id="buffer">
+        <div class="flex-container-overall">
+            <div>
+                <div class="hypotheticalText">Hypothetical scenarios</div>
+                <div id="pick">Pick one from each column</div>
+            </div>
+            <div class="flex-container-horizontal">
+                <div class="flex-container-radio radioButtons" id="radio1">
+                    <div class="flex-container-vertical returnText">If all athletes except:</div>   
+                    <div class="flex-container-vertical">
+                        <label>the winner<input type="radio" name="radio1" value="1"></label>
+                    </div>
+                    <div class="flex-container-vertical">
+                        <label>medalists<input type="radio" name="radio1" value="2"></label>
+                    </div>
+                </div>
+                <div class="flex-container-radio radioButtons" id="radio2">
+                    <div class="flex-container-vertical returnText">were:</div>
+                    <div class="flex-container vertical">
+                        <label><input type="radio" name="radio2" value=5>1% faster</label>
+                    </div>
+                    <div class="flex-container vertical">
+                        <label><input type="radio" name="radio2" value=4>0.5% faster</label>
+                    </div>
+                    <div class="flex-container vertical">
+                        <label><input type="radio" name="radio2" value=3>0.2% faster</label>
+                    </div>
+                    <div class="flex-container vertical">
+                        <label><input type="radio" name="radio2" value=2>0.1% faster</label>
+                    </div>
+                    <div class="flex-container vertical">
+                        <label><input type="radio" name="radio2" value=1>0.05% faster</label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="returnText"><input type="radio" name="radio1" value="0" checked>Return to actual results</label>
+            </div>
+        </div>
+    </div>
+
+    <div id="olympicsSketch">
+        <script src="js/medals.js" type="text/javascript"></script>
+    </div>
+
+    <br>
+
+    <div>
+        <img class="endmark" src="assets/endmark.png" alt="End Mark">
+    </div>
+
+    <br>
+
+    <!--Swim times at World Championships-->
+    <div>
+        <h3>Development of the polyurethane swimsuit</h3>
+        <p class="main">In 2009, the swimsuit brand Arena unveiled a pure-polyurethane competitive suit that was fully impermeable and
+            substantially reduced hydrodynamic drag. At the World Championships that year, athletes wearing pure-polyurethane suits set
+            an astonishing 37 world records.<br><br>
+            The ensuing outcry spurred the Fédération Internationale de Natation (FINA), the governing body of elite swimming, to issue
+            new rules for swimsuit design in 2010. Specifically, full-body suits were no longer permitted and materials were only to be
+            textile fabrics that met specific guidelines on buoyancy and permeability.<br><br>
+            This visualization of sprint races at World Championships between 2003 and 2017 shows the pure-polyurethane suits of
+            2009 to be outliers. In all 16 events analyzed, swim times progressed gradually between 2003 and 2007, then improved considerably
+            in 2009. After full-body suits and non-textile materials were banned, swim times slowed in 2011. A
+            <a href="https://doi.org/10.1016/j.proeng.2012.04.121" target="_blank">2012 study</a>
+            reported that the pure-polyurthane suits increased performance by up to 5.5%.<br><br><br></p>
+    </div>
+
+    <div id="swimming">
+        <select id="selectSwimDistance" class="selectSwimmingEvent">
+            <option value="men 50">Men's 50-meter events</option><option value="women 50">Women's 50-meter events</option>
+            <option value="men 100">Men's 100-meter events</option><option value="women 100">Women's 100-meter events</option>
+        </select>
+    </div>
+
+    <div id="swimSketch">
+        <script src="js/swimming.js" type="text/javascript"></script>
+    </div>
+
+    <br>
+
+    <div>
+        <img class="endmark" src="assets/endmark.png" alt="End Mark">
+    </div>
+
+    <br>
+
+    <!--Animation of men's singles luge at 2018 Winter Olympics-->
+    <div>
+        <h3>Animation of the 2018 Winter Olympics men's singles luge event</h3>
+        <p class="main">Luge is a winter sliding sport in which one athlete, or a two-person team of athletes,
+            lies face up on a racing sled and steers it at high speed down an artificial ice track.
+            At the 2018 Winter Olympic Games in PyeongChang, athletes in the men's singles competition completed four runs of the course. The
+            aggregate time of the four runs was measured to the thousandth of a second. With forty athletes competing in succession and
+            47–50 seconds per run, there were about two hours of competition.<br><br>
+            To gauge provisional standings throughout the race,
+            times were recorded at several positions along the track. Based on these 'split times,' viewers watching the
+            competition could assess the athletes' performances and get a sense of the provisional standings during each run.
+            For example, a steering error would show up in a subsequent split-time comparison.<br><br>
+            This animation incorporates actual split times, finishing times, and recorded speeds to model the
+            competition — <span id="luge-highlight">as a head-to-head race between the top eight lugers and in less than one minute</span>. Data are from the International Olympic Committee (IOC) and course information
+            is from the Fédération Internationale de Luge de Course (FIL).<br><br></p>
+    </div>
+
+    <div id="container">
+        <div id="subcontainer">
+            <div class="question">Who won the men's singles luge at the 2018 Winter Olympic Games?</div>
+            <div id="lugeIntro">The men's singles luge event was contested over four runs of the luge track.
+                The athlete with the fastest aggregate time was declared the winner.
+                This animation uses actual split-time data and speeds to display the top eight
+                finishers head-to-head. The winning margin between gold and silver was 0.026 seconds.
+                Keep your eye on Felix Loch, who was the hot favorite going into the Olympics.<br><br></div>
+            <!--<div id="competitors">Competitors</div>-->
+
+            <div class="flags">
+                <div class="flag-column">
+
+                    <div>
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/canada.svg">
+                            <div class="flag-text-container">Sam EDNEY</div>
+                        </div>
+                        
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/italy.svg">
+                            <div class="flag-text-container">Dominik FISCHNALLER</div>
+                        </div>
+                        
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/italy.svg">
+                            <div class="flag-text-container">Kevin FISCHNALLER</div>
+                        </div>
+                        
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/austria.svg">
+                            <div class="flag-text-container">David GLEIRSCHER</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/germany.svg">
+                            <div class="flag-text-container">Felix LOCH</div>
+                        </div>
+
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/germany.svg">
+                            <div class="flag-text-container">Johannes LUDWIG</div>
+                        </div>
+                        
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/united-states-of-america.svg">
+                            <div class="flag-text-container">Chris MAZDZER</div>
+                        </div>
+
+                        <div class="flag-row">
+                            <img class="flag" src="assets/flags/olympic.svg">
+                            <div class="flag-text-container">Roman REPILOV</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="click" onClick="startRun()">Start</div>
+            <div id="click" onClick="window.location.reload()">Reset</div>
+        </div>
+    </div>
+
+    <div>
+        <script src="js/luge.js" type="text/javascript"></script>
+    </div>
+
+    <div>
+        <img class="endmark" src="assets/endmark.png" alt="End Mark">
+    </div>
+
+    <br>
+
+    <div>
+        <p class="closing">The methodology and data sources for these visualizations, which were originally published as an academic thesis, are described
+        <a href="https://julianhlange.github.io/portfolio/edge/methodology" target="_blank">here</a>.<br><br>
+        Julian H. Lange (<a href="https://twitter.com/julianhlange" target="_blank">@julianhlange</a>) uses analytical approaches and
+        graphics to bring out stories buried within data. He has a Master's degree from Parsons School of Design and a Ph.D. from Massachusetts Institute
+        of Technology. Visit <a href="https://www.julianhlange.com" target="_blank">julianhlange.com</a> for a portfolio of his data visualization and science.<br><br>
+        © 2018 Julian H. Lange<br><br></p>
+    </div>
+
+</body>
+
+</html>
